@@ -1,11 +1,10 @@
-from guillotina.content import Folder
 from guillotina import configure
-from guillotina.interfaces import IFolder
-from guillotina.interfaces import IResource
-from guillotina.content import Folder
-from guillotina_asyncom.db import Base
 from guillotina import schema
 from guillotina.component import get_utility
+from guillotina.content import Folder
+from guillotina.interfaces import IFolder
+from guillotina.interfaces import IResource
+from guillotina_asyncom.db import Base
 from guillotina_asyncom.interfaces import IAsyncOm
 from zope.interface import directlyProvides
 
@@ -13,7 +12,9 @@ from zope.interface import directlyProvides
 class IDBFolder(IFolder):
     model = schema.TextLine(title="Model Name", required=True)
     filters = schema.Dict(required=False, default={})
-    also_provides = schema.TextLine(title="Interfaces also provided", required=False)
+    also_provides = schema.TextLine(
+        title="Interfaces also provided", required=False
+    )
 
 
 class IDBResource(IResource):

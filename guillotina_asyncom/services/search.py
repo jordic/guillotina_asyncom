@@ -1,15 +1,10 @@
-
 from .base import ServiceAsyncOm
 from guillotina import configure
 from guillotina_asyncom.content import IDBFolder
 from guillotina_asyncom.serializers import serializer
 
 
-@configure.service(
-    context=IDBFolder,
-    name="@search",
-    method="GET"
-)
+@configure.service(context=IDBFolder, name="@search", method="GET")
 class SearchDBFolder(ServiceAsyncOm):
     async def __call__(self):
         db = await self.db()
@@ -20,5 +15,5 @@ class SearchDBFolder(ServiceAsyncOm):
             item.__parent__ = self.context
         return {
             "member": [await serializer(item, self.context) for item in data],
-            "items_count": amount
+            "items_count": amount,
         }

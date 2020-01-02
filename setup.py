@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-from setuptools import Extension
 from setuptools import find_packages
 from setuptools import setup
 
@@ -32,7 +30,15 @@ setup(
     version=open("VERSION").read().strip(),
     description="Guillotina Postgresql integration",  # noqa
     long_description=long_description,
-    keywords=["asyncio", "REST", "Framework", "transactional", "asgi", "postgresql", "sqlalchemy"],
+    keywords=[
+        "asyncio",
+        "REST",
+        "Framework",
+        "transactional",
+        "asgi",
+        "postgresql",
+        "sqlalchemy",
+    ],
     author="Jordi Collell",
     author_email="jordic@gmail.com",
     classifiers=[
@@ -50,10 +56,7 @@ setup(
     include_package_data=True,
     package_data={"": ["*.txt", "*.rst"]},
     packages=find_packages(),
-    install_requires=[
-        "guillotina",
-        "asyncom",
-    ],
+    install_requires=["guillotina", "asyncom>=0.3.1"],
     extras_require={
         "test": [
             "pytest>=3.8.0<=5.0.0",
@@ -66,6 +69,6 @@ setup(
             "pytest-docker-fixtures",
             "pytest-rerunfailures<=7.0",
             "async-asgi-testclient~=1.2.0",
-        ],
-    }
+        ]
+    },
 )

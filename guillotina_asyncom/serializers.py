@@ -1,28 +1,30 @@
+from guillotina import configure
+from guillotina.component import ComponentLookupError
+from guillotina.component import get_multi_adapter
 from guillotina.interfaces import IResourceSerializeToJson
 from guillotina.interfaces import IResourceSerializeToJsonSummary
 from guillotina_asyncom.content import IDBResource
-from guillotina.utils import get_object_url
-from guillotina.component import get_multi_adapter
-from guillotina import configure
 from zope.interface import Interface
-from guillotina.component import ComponentLookupError
 
 
 async def serializer(obj, context):
     item = obj.to_dict()
-    item.update({
-        "path": f"/{obj.pk_}",
-        "@type": f"DB_{context.model}",
-        "@name": obj.title(),
-        "@id": obj.absolute_url(),
-        "is_folderish": False,
-        "parent": {}
-    })
+    item.update(
+        {
+            "path": f"/{obj.pk_}",
+            "@type": f"DB_{context.model}",
+            "@name": obj.title(),
+            "@id": obj.absolute_url(),
+            "is_folderish": False,
+            "parent": {},
+        }
+    )
     return item
 
 
-
-@configure.adapter(for_=(IDBResource, Interface), provides=IResourceSerializeToJson)
+@configure.adapter(
+    for_=(IDBResource, Interface), provides=IResourceSerializeToJson
+)
 class SerializeToJson(object):
     def __init__(self, context, request):
         self.context = context
@@ -53,9 +55,7 @@ class SerializeToJson(object):
             "@static_behaviors": [],
             "@dynamic_behaviors": [],
             "parent": parent_summary,  # should be @parent
-            "is_folderish": False
+            "is_folderish": False,
         }
-        result.update(
-            self.context.to_dict()
-        )
+        result.update(self.context.to_dict())
         return result

@@ -1,7 +1,6 @@
-
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import inspect
 from guillotina.utils import get_object_url
+from sqlalchemy import inspect
+from sqlalchemy.ext.declarative import declarative_base
 
 import typing
 
