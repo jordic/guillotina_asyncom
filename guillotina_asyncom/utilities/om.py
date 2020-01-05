@@ -49,7 +49,8 @@ class GuillotinaOM(OMDatabase):
 
 @configure.utility(provides=IAsyncOm)
 class AsyncOMUtility:
-    async def get(self):
-        txn = get_transaction()
-        conn = await txn.get_connection()
+    async def get(self, conn=None):
+        if conn is None:
+            txn = get_transaction()
+            conn = await txn.get_connection()
         return GuillotinaOM(conn)

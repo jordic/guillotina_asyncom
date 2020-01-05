@@ -6,6 +6,7 @@ from guillotina.interfaces import IFolder
 from guillotina.interfaces import IResource
 from guillotina_asyncom.db import Base
 from guillotina_asyncom.interfaces import IAsyncOm
+from guillotina_asyncom.utils import cast_to_pk
 from zope.interface import directlyProvides
 
 
@@ -38,12 +39,13 @@ class DBFolder(Folder):
         return db.query(self.get_class())
 
     async def async_contains(self, key: str) -> bool:
-        # TODO: Perhaps convert key from str to (type on primary_key)
-        return await self.query().get(int(key)) is not None
+        cast_key = cast_to_pk(self.get_class(), key)
+        return await self.query().get(cast_key) is not None
 
     async def async_get(self, key, suppress_events=True, default=None):
+        cast_key = cast_to_pk(self.get_class(), key)
         db = await self.query()
-        obj = await db.get(int(key))
+        obj = await db.get(cast_key)
         if not obj:
             return default
         # factory
